@@ -32,6 +32,7 @@ Sigmoid 함수는 특정 구간에서 gradient 소실(vanishing gradient)이 발
 * 활성화 함수만 Sigmoid / ReLU로 분기
 * 학습 설정: 동일한 epoch, learning rate, optimizer 적용
 * 반복 실험: 블록 수 1\~8 각각에 대해 학습 및 평가
+* 실험 환경: Google Colab T4 GPU
 
 ### 📊 결과 요약
 
