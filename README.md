@@ -72,7 +72,9 @@ Sigmoid 함수는 특정 구간에서 gradient 소실(vanishing gradient)이 발
 | Conv → ReLU → BatchNorm      | 58.50   |
 | Conv → LeakyReLU → BatchNorm | 60.09   |
 
-> **결과**: 표준 순서(Conv→BN→ReLU)가 가장 우수한 성능 보이며, 이어서 (Conv→LeakyReLU→BN)의 성능이 높았고, (Conv→ReLU→BN)이 가장 낮은 성능을 보임. 
+> **결과**: 표준 순서(Conv→BN→ReLU)가 가장 우수한 성능 보이며, 이어서 (Conv→LeakyReLU→BN)의 성능이 높았고, (Conv→ReLU→BN)이 가장 낮은 성능을 보임.
+>
+> 
 > **원인 분석**: Conv→BN→ReLU 이 구조는 선형 출력값을 정규화한 뒤 비선형성(ReLU)을 적용해 주기 때문에, 안정적인 분포와 원활한 그래디언트 흐름을 보장하여 최상의 성능을 낸다. Conv→ReLU→BN 은 ReLU가 음수 값을 제거한 뒤 BN이 이를 정규화하다 보니 편향된 분포가 형성되고, Conv→LeakyReLU→BN 은 LeakyReLU가 일부 음수 정보를 유지해 성능이 다소 개선된 결과를 보인 것.
 
 ---
