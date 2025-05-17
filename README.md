@@ -8,7 +8,6 @@
 2. [BatchNorm\_vs\_GroupNorm](#🔵-batchnorm_vs_groupnorm)
 3. [Conv\_Activation\_Norm\_Position](#🔶-conv_activation_norm_position)
 4. [설치 및 실행 방법](#⚙️-설치-및-실행-방법)
-5. [라이선스](#📝-라이선스)
 
 ---
 
