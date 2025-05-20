@@ -8,7 +8,6 @@
 2. [BatchNorm\_vs\_GroupNorm](#🔵-batchnorm_vs_groupnorm)
 3. [Conv\_Activation\_Norm\_Position](#🔶-conv_activation_norm_position)
 4. [설치 및 실행 방법](#⚙️-설치-및-실행-방법)
-5. [라이선스](#📝-라이선스)
 
 ---
 
@@ -130,8 +129,8 @@ Batch Normalization은 배치 크기가 충분할 때 안정적이나, 작을 �
 ## ⚙️ 설치 및 실행 방법
 
 ```bash
-git clone https://github.com/Lemon-Farm/AI-Experiments-01.git
-cd AI-Experiments-01
+git clone https://github.com/Lemon-Farm/AI-Experiments.git
+cd AI-Experiments
 ```
 
 각 실험 노트북(`.ipynb`)을 열어 실행하면 결과를 재현할 수 있습니다.
