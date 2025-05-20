@@ -8,6 +8,7 @@
 2. [BatchNorm\_vs\_GroupNorm](#🔵-batchnorm_vs_groupnorm)
 3. [Conv\_Activation\_Norm\_Position](#🔶-conv_activation_norm_position)
 4. [설치 및 실행 방법](#⚙️-설치-및-실행-방법)
+5. [라이선스](#📝-라이선스)
 
 ---
 
@@ -50,7 +51,57 @@ Sigmoid 함수는 특정 구간에서 gradient 소실(vanishing gradient)이 발
 
 ---
 
-## 🔵 BatchNorm\_vs\_GroupNo다.
+## 🔵 BatchNorm\_vs\_GroupNorm
+
+### 🎯 목표
+
+* 정규화 기법 비교: BatchNorm vs GroupNorm
+* 배치 크기(batch size) = 2, 4, 8, 16, 32, 64, 128로 설정
+
+### 🧠 배경
+
+Batch Normalization은 배치 크기가 충분할 때 안정적이나, 작을 경우 통계 추정이 불안정하여 성능 저하. Group Normalization은 배치 통계가 아닌 채널 그룹 통계를 사용하여 배치 크기에 무관한 일관된 성능 제공.
+
+### 🛠 구현 내용
+
+* 코드:
+
+  * `BatchNorm_vs_GroupNorm.ipynb` (기본 실험)
+  * `BatchNorm_vs_GroupNorm - Many Epochs.ipynb` (논문 구현과 유사하도록 에포크 증가)
+* 프레임워크: PyTorch
+* 데이터셋: CIFAR-100
+* 모델 구성: ConvNet 블록(Convolution → Norm → ReLU)
+
+  * Norm 레이어만 BatchNorm / GroupNorm 분기
+  * GroupNorm: 그룹 수 32로 고정
+* 학습 조건: 동일한 하이퍼파라미터
+* 반복 실험: 각 batch size에 대해 학습 및 평가
+
+### 📊 결과 요약
+
+| Batch Size | BatchNorm 정확도 (%) | GroupNorm 정확도 (%) |
+| ---------- | ----------------- | ----------------- |
+| 2          | 10.01             | 30.89             |
+| 4          | 33.81             | 40.46             |
+| 8          | 44.55             | 44.27             |
+| 16         | 49.68             | 48.85             |
+| 32         | 52.16             | 50.65             |
+| 64         | 53.18             | 51.37             |
+| 128        | 52.05             | 50.09             |
+
+> **확인사항**: BatchNorm은 batch size ≥ 8 이상에서 GroupNorm 대비 3% 이내 차이를 보이지만, 그 이하에서는 성능이 급락. GroupNorm은 모든 배치 크기에서 안정적 성능 유지.
+
+---
+
+## 🔶 Conv\_Activation\_Norm\_Position
+
+### 🎯 목표
+
+레이어 구성 순서 변경(Conv → Norm → Activation)의 성능 영향 분석
+
+### 🧠 배경
+
+일반적으로 Convolution → BatchNorm → ReLU 순으로 구성하지만, 순서 변경이 모델 성능에 미치는 영향은 연구 여지가 있습니다.
 
 ### 🛠 구현 내용
 
@@ -72,10 +123,7 @@ Sigmoid 함수는 특정 구간에서 gradient 소실(vanishing gradient)이 발
 | Conv → ReLU → BatchNorm      | 58.50   |
 | Conv → LeakyReLU → BatchNorm | 60.09   |
 
-> **결과**: 표준 순서(Conv→BN→ReLU)가 가장 우수한 성능 보이며, 이어서 (Conv→LeakyReLU→BN)의 성능이 높았고, (Conv→ReLU→BN)이 가장 낮은 성능을 보임.
->
-> 
-> **원인 분석**: Conv→BN→ReLU 이 구조는 선형 출력값을 정규화한 뒤 비선형성(ReLU)을 적용해 주기 때문에, 안정적인 분포와 원활한 그래디언트 흐름을 보장하여 최상의 성능을 낸다. Conv→ReLU→BN 은 ReLU가 음수 값을 제거한 뒤 BN이 이를 정규화하다 보니 편향된 분포가 형성되고, Conv→LeakyReLU→BN 은 LeakyReLU가 일부 음수 정보를 유지해 성능이 다소 개선된 결과를 보인 것.
+> **분석**: 순서 변경에 따른 정확도 차이는 크지 않으나, 표준 순서(Conv→BN→ReLU)가 가장 우수한 성능 보임.
 
 ---
 
